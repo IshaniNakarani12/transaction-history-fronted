@@ -1,4 +1,4 @@
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Button } from "react-bootstrap";
 import { TopNav } from "../components/TopNav";
 import { Footer } from "../components/Footer";
 import { AuthComp } from "../components/AuthComp";
@@ -8,9 +8,12 @@ import { NewTransForm } from "../components/NewTransForm";
 import { TransactionTable } from "../components/TransactionTable";
 import { fetchTrans } from "../helpers/axiosHelper";
 import { toast } from "react-toastify";
+import { CustomModal } from "../components/CustomModal";
+import { Children } from "react";
 
 const Dashboard = ({ loggedInUser }) => {
   const [transactions, setTransactions] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     getUserTransactions();
@@ -30,8 +33,24 @@ const Dashboard = ({ loggedInUser }) => {
       <Container className="main pt-2">
         <h4>Dashboar | Welcome back {loggedInUser?.name}</h4>
         <hr />
-
-        <NewTransForm getUserTransactions={getUserTransactions} />
+        <CustomModal
+          title="Add new transaction"
+          show={showForm}
+          setShowForm={setShowForm}
+        >
+          <NewTransForm
+            getUserTransactions={getUserTransactions}
+            setShowForm={setShowForm}
+          />
+        </CustomModal>
+        <Row>
+          <Col className="text-end">
+            <Button onClick={() => setShowForm(true)}>
+              {" "}
+              Add New Transaction
+            </Button>
+          </Col>
+        </Row>
 
         <Row className="mt-5">
           <Col>
