@@ -1,8 +1,10 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { useUser } from "../UserContext";
 
-export const TopNav = ({ loggedInUser }) => {
+export const TopNav = () => {
+  const { loggedInUser } = useUser();
   const handleOnLogOut = () => {
     localStorage.removeItem("user");
   };
@@ -14,9 +16,12 @@ export const TopNav = ({ loggedInUser }) => {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ms-auto">
             {loggedInUser?._id ? (
-              <Nav.Link href="/" onClick={handleOnLogOut}>
-                Log Out
-              </Nav.Link>
+              <>
+                <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                <Nav.Link href="/" onClick={handleOnLogOut}>
+                  Log Out
+                </Nav.Link>
+              </>
             ) : (
               <>
                 <Nav.Link href="/">Login</Nav.Link>
